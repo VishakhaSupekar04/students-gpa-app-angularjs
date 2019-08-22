@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Display Student table - calculate GPA and add new student entry </title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script src="StudentModel.js"></script>
+</head>
+
+<body ng-app="student">
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark "  style="margin:10px">
+        <h3 class="header">Student Information</h3>
+
+    </nav> 
+
+    <div ng-controller="StudentController" class="container">
+        <div class="form-row">
+            <form class=" col-md-3 form-horizontal center_div " role="form" ng-submit="addStudent()">
+                <h6>&nbsp; &nbsp;Enter the new student information</h6>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Name</label>
+                    <input type="text" class="form-control" name="name"
+                           ng-model="name" required />
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Math</label>
+                    <select class="form-control" name="math"
+                            ng-model="math" required>
+                        <option value="">None</option>
+                        <option ng-repeat="grade in grades" value="{{grade}}">{{ grade }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">History</label>
+                    <select class="form-control" name="history"
+                            ng-model="history" required>
+                        <option value="">None</option>
+                        <option ng-repeat="grade in grades">{{ grade }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Science</label>
+                    <select class="form-control" name="science"
+                            ng-model="science" required>
+                        <option value="">None</option>
+                        <option ng-repeat="grade in grades">{{ grade }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">English</label>
+                    <select class="form-control" name="english"
+                            ng-model="english" required>
+                        <option value="">None</option>
+                        <option ng-repeat="grade in grades">{{ grade }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div style="padding-left:110px">
+                        <input type="submit" value="Add" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-8">
+                <table class="table" style="margin:10px" id="studentTable">
+                    <thead class="thead-dark">
+                        <tr align="center">
+                            <th>Name</th>
+                            <th>Math</th>
+                            <th>History</th>
+                            <th>Science</th>
+                            <th>English</th>
+                            <th>GPA</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody ng-class="getdata()">
+
+                        <!-- use ng-class to highlight the max and min gpa row -->
+                        <tr ng-repeat="entry in studentdata" ng-class="{'max_row':gpa_value==max_gpa,'min_row':gpa_value==min_gpa}" align="center">
+                            <td>{{ entry.name }}</td>
+                            <!-- For all the courses grade use another loop -->
+                            <td ng-repeat="grade in entry.grades" align="center"> {{ grade | limitTo : -1 }}</td>
+                            <td>{{ calculateGPA($index) | number : 2 }}</td>
+                            <td><a href="#" ng-click="deleteStudent($index)">Remove</a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="container-fluid  bg-dark ">
+        <h5 style="color:whitesmoke">email:abc@gmail.com</h5>
+    </footer>
+
+</body>
+</html>
