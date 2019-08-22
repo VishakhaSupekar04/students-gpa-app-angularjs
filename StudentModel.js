@@ -2,8 +2,8 @@
 
 
 var student = angular.module("student",[]);
-var studentController = function($scope,$filter,$http) {
-
+    var studentController = function($scope,$filter,$http) {
+    
 // dropdown options for selecting grades
  $scope.grades = ['A','B','C','D','F'];
 
